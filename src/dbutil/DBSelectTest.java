@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class DBSelectTest {
     public static void main(String[] args) {
         // 이전에 추천했던 옵션 추가 (에러 방지용!)
-        String url = "jdbc:mysql://localhost:3306/jdbc?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul";
+        String url = "jdbc:mysql://localhost:3306/jdbc";
         String user = "jdbcuser";
         String password = "jdbcuser";
 

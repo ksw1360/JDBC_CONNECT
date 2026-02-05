@@ -13,7 +13,7 @@ import domain.PersonVO;
 public class DBSelectTest2 {
     public static void main(String[] args) {
         // 에러 방지 옵션 추가!
-        String url = "jdbc:mysql://localhost:3306/jdbc?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul";
+        String url = "jdbc:mysql://localhost:3306/jdbc";
         String user = "jdbcuser";
         String password = "jdbcuser";
 
@@ -53,11 +53,8 @@ public class DBSelectTest2 {
             }
 
         } catch (SQLException e) {
-            System.out.println("DB 오류 발생 😭: " + e.getMessage());
+            System.out.println("DB 오류 발생 : " + e.getMessage());
             e.printStackTrace();
         }
-
-        // 리스트 전체 확인 (필요하면)
-        // for (PersonVO vo : list) { System.out.println(vo); }
     }
 }
