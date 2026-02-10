@@ -2,30 +2,25 @@ package dbutil;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import domain.PersonVO;
 
-public class DBSelectTest2 {
+public class DBSelectTest3 {
     public static void main(String[] args) {
-        // 에러 방지 옵션 추가!
         String url = "jdbc:mysql://localhost:3306/jdbc";
         String user = "jdbcuser";
         String password = "jdbcuser";
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+            String sql = "Select * from Persons where id >= ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, 0);
+            List<PersonVO> list = new ArrayList<>();
 
-        String sql = "SELECT * FROM Persons";
-
-        List<PersonVO> list = new ArrayList<>();
-
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(sql)) {
-
-            System.out.println("=== Persons 테이블 데이터 ===");
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 PersonVO vo = new PersonVO(
@@ -53,9 +48,8 @@ public class DBSelectTest2 {
                 System.out.println("총 " + list.size() + "행 조회됨");
             }
 
-        } catch (SQLException e) {
-            System.out.println("DB 오류 발생 : " + e.getMessage());
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }

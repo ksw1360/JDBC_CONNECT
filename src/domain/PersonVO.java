@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class PersonVO {
 
-    private int id; // private로 캡슐화 추천!
+    private int id;
     private String userId;
     private String userPw;
     private String userName;
@@ -13,17 +13,19 @@ public class PersonVO {
     private String phone2;
     private int age;
     private String address1;
-    private Timestamp regDate;
-    private Timestamp modifydate;
+    private String address2;
+    // private Timestamp regDate;
+    // private Timestamp modifydate;
 
     // 기본 생성자
     public PersonVO() {
     }
 
     // 전체 필드 생성자
+    // 빌드 생성자(id, regdate, modifydate)
     public PersonVO(int id, String userId, String userPw, String userName, String userEmail,
             String phone1, String phone2, int age, String address1,
-            Timestamp regDate, Timestamp modifydate) {
+            String address2) {
         this.id = id;
         this.userId = userId;
         this.userPw = userPw;
@@ -33,8 +35,9 @@ public class PersonVO {
         this.phone2 = phone2;
         this.age = age;
         this.address1 = address1;
-        this.regDate = regDate;
-        this.modifydate = modifydate;
+        this.address2 = address2;
+        // this.regDate = regDate;
+        // this.modifydate = modifydate;
     }
 
     // getter/setter (필수!)
@@ -110,31 +113,40 @@ public class PersonVO {
         this.address1 = address1;
     }
 
-    public Timestamp getRegDate() {
-        return regDate;
-    }
+    // public Timestamp getRegDate() {
+    // return regDate;
+    // }
 
-    public void setRegDate(Timestamp regDate) {
-        this.regDate = regDate;
-    }
+    // public void setRegDate(Timestamp regDate) {
+    // this.regDate = regDate;
+    // }
 
-    public Timestamp getModifydate() {
-        return modifydate;
-    }
+    // public Timestamp getModifydate() {
+    // return modifydate;
+    // }
 
-    public void setModifydate(Timestamp modifydate) {
-        this.modifydate = modifydate;
-    }
+    // public void setModifydate(Timestamp modifydate) {
+    // this.modifydate = modifydate;
+    // }
 
     // phone 전체 보기 편하게
     public String getPhone() {
         return phone1 + "-" + phone2;
     }
 
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
     @Override
     public String toString() {
-        return "PersonVO [id=" + id + ", userId=" + userId + ", userName=" + userName +
-                ", phone=" + getPhone() + ", age=" + age + ", address1=" + address1 +
-                ", regDate=" + regDate + ", modifydate=" + modifydate + "]";
+        return "PersonVO [id=" + id + ", userId=" + userId + ", userPw=" + userPw + ", userName=" + userName
+                + ", userEmail=" + userEmail + ", phone1=" + phone1 + ", phone2=" + phone2 + ", age=" + age
+                + ", address1=" + address1 + ", address2=" + address2 + "]";
     }
+
 }
