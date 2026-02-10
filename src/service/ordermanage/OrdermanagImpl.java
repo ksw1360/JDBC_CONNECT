@@ -5,129 +5,107 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import dto.OrderDto;
+import domain.orders.OrdersVO;
+import domain.users.UserVO;
+import dto.OrderDTO;
 import dto.UserDto;
-import repository.OdersDAOimpl;
 import repository.Orders;
-import repository.OrdersVO;
-import repository.UserVO;
+import repository.OrdersDAOImpl;
 import repository.Users;
 import repository.UsersDAOImpl;
 
 public class OrdermanagImpl implements Ordermanage {
+
+    // 서비스 계층에 작업을 위해 필요한 객체들...
     Users userRepository = new UsersDAOImpl();
-    Orders orderRepository = new OdersDAOimpl();
-    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    OrderDto userDto = null;
+    Orders orderRepository = new OrdersDAOImpl();
 
     @Override
-    public boolean createOrder(OrderDto order, UserDto userDto) {
+    public boolean createOrder(OrderDTO order, UserDto userDTO) {
+        // 주문 생성
         OrdersVO newOrder = OrdersVO.builder()
                 .orderList(order.getOrderList())
-                .orderNUm(order.getOrderNUm())
+                .orderNum(order.getOrderNum())
                 .price(order.getPrice())
-                .userId(userDto.getUserId())
+                .userId(userDTO.getUserId())
                 .build();
 
         return orderRepository.insertOrder(newOrder);
     }
 
     @Override
-    public boolean deleteOrder(OrderDto order, UserDto userDto) {
-        // 삭제 작업은 Orders 테이블의 id로 삭제를 진행
-        // 사용자 확인 작업
-        List<UserVO> userinfo = userRepository.UserSearch(userDto.getUserEmail());
-         //UserVO userinfo = userRepository.UserSearch(userDto.getUserEmail()).get(0);
-        if (!userinfo.isEmpty())
-        {
-            // UserDTo.getUserPW()는 삭제를 위해 입력한 패스워드를 저장.
-            //userinfo.get().getUserPw()는 DB에 있는 사용자의 패스워드
-            if (userDto.getUserPw().equals(userinfo.get(0).getUserPw()))
-                //.get().getUserPw()))
-        }else return false;
-        orderRepository.deleteOrder(order.getId());
-        return false;
+    public boolean deleteOrder(OrderDTO order, UserDto userDTO) {
+        // 삭제 작업은 Orders 테이블의 id로 삭제를 진행.
+        // 사용자 확인 작업...
+        Optional<UserVO> userInfo = userRepository.userSearch(userDTO.getUserEmail());
+        if (userInfo.isPresent()) {
+            // userDTO.getUserPw() 는 삭제를 위해 입력한 패스워드를 저장.
+            // userInfo.get().getUSerPw() 는 DB에 있는 사용자의 패스워드
+            if (userDTO.getUserPw().equals(userInfo.get().getUserPw())) {
+                return orderRepository.deleteOrder(order.getId());
+            } else
+                return false;
+        } else
+            return false; // 등록된 사용자가 없는 경우.
+
     }
 
     @Override
-    public boolean modifyOrder(OrderDto order) {
-        Optional<UserVO> user = userRepository.UserSearch2(userDto.getOrderEmail);
-        // userRepository.UserSearch(userDto.getId());
+    public List<OrderDTO> findList(UserDto dto) {
+        // 사용자가 주문한 주문 리스트 출력
+        // 1. 사용자 정보 : userId를 불러서.
+        // 2. orderRepository.ordersSearch(userId)
+        List<OrdersVO> ordersVOList = orderRepository.ordersSearch(dto.getUserId());
+        List<OrderDTO> ordersList = new ArrayList<>();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (OrdersVO vo : ordersVOList) {
+            ordersList.add(OrderDTO.builder()
+                    .id(vo.getId())
+                    .orderList(vo.getOrderList())
+                    .orderNum(vo.getOrderNum())
+                    .price(vo.getPrice())
+                    .date(sf.format(vo.getDate()))
+                    .userId(vo.getUserId())
+                    .build());
+        }
+        return ordersList;
+    }
+
+    @Override
+    public List<OrderDTO> findAll() {
+        // 관리자 입장에서 모든 주문 내역을 가져오기
+        return null;
+    }
+
+    @Override
+    public List<OrderDTO> findDate(String dateString) {
+        // 관리자 입장에서 날짜를 통한 주문 내역
+        return null;
+    }
+
+    @Override
+    public List<OrderDTO> findUserId(String userId) {
+        // 특정 사용자의 주문 내역.
+        return null;
+    }
+
+    @Override
+    public boolean modifyOrder(OrderDTO order, UserDto userDTO) {
+        // 회원정보와 order 정보를 통한 수정 처리...
+        Optional<UserVO> user = userRepository.userSearch(userDTO.getUserEmail());
+
         if (user.isPresent()) {
-            OrdersVO ordervo = OrdersVO.builder()
+            // OrderDTO -> OrderVO
+            OrdersVO orderVO = OrdersVO.builder()
                     .id(order.getId())
-                    .userId(order.getOrderList())
-                    .orderNUm(order.getOrderNUm())
+                    .userId(order.getUserId())
+                    .orderList(order.getOrderList())
+                    .orderNum(order.getOrderNum())
                     .price(order.getPrice())
                     .build();
-
-            return orderRepository.modifyOrder(ordervo);
-
+            return orderRepository.modifyOrder(orderVO);
         }
         return false;
     }
 
-    @Override
-    public List<OrderDto> findAll() {
-        List<OrdersVO> ordersVOList = orderRepository.OdersAll();
-        List<OrderDto> ordersList = new ArrayList<>();
-        for (OrdersVO vo : ordersVOList) {
-            ordersList(OrderDto.builder()
-                    .id(vo.getId())
-                    .orderList(vo.getOrderList())
-                    .orderNUm(vo.getOrderNUm())
-                    .price(vo.price)
-                    .userId(vo.getUserId())
-                    .orderDate(sf.format(vo.getOrderDate()))
-                    .build());
-
-        }
-        return ordersList;
-    }
-
-    private void ordersList(OrderDto orderDto) {
-
-    }
-
-    @Override
-    public List<OrderDto> findList(UserDto dto) {
-        // 사용자가 주문한 주문 리스트 출력
-        // 1. 사용자 정보 : userId를 불러서
-        // 2. orderRepository
-        List<OrdersVO> ordersVOList = orderRepository.OderSearch(dto.getUserId());
-        List<OrderDto> ordersList = new ArrayList<>();
-        for (OrdersVO vo : ordersVOList) {
-            ordersList(OrderDto.builder()
-                    .id(vo.getId())
-                    .orderList(vo.getOrderList())
-                    .orderNUm(vo.getOrderNUm())
-                    .price(vo.price)
-                    .userId(vo.getUserId())
-                    .orderDate(sf.format(vo.getOrderDate()))
-                    .build());
-
-        }
-        return ordersList;
-    }
-
-    @Override
-    public List<OrderDto> findid(UserDto dto) {
-        // 사용자가 주문한 주문 리스트 출력
-        // 1. 사용자 정보 : userId를 불러서
-        // 2. orderRepository
-        List<OrdersVO> ordersVOList = orderRepository.OderSearch(dto.getUserId());
-        List<OrderDto> ordersList = new ArrayList<>();
-        for (OrdersVO vo : ordersVOList) {
-            ordersList(OrderDto.builder()
-                    .id(vo.getId())
-                    .orderList(vo.getOrderList())
-                    .orderNUm(vo.getOrderNUm())
-                    .price(vo.price)
-                    .userId(vo.getUserId())
-                    .orderDate(sf.format(vo.getOrderDate()))
-                    .build());
-
-        }
-        return ordersList;
-    }
 }

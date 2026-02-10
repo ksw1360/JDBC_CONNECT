@@ -1,207 +1,73 @@
 package dbutil.test;
 
-import java.util.Scanner;
-import repository.UserVO;
+import java.util.Optional;
+
+import domain.users.UserVO;
 import repository.Users;
 import repository.UsersDAOImpl;
 
 public class RepositoryTest {
 
-    private static final Users repository = new UsersDAOImpl();
+    // 단위 테스트
+    // 기능 정의된 인터페이스를 통한 기능 호출.
+    private static Users repository = new UsersDAOImpl();
 
     public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in, "cp949")) { // try-with-resources 추천
 
-            System.out.print("메뉴(i:추가, s:조회, u:수정, d:삭제, q:종료) → ");
-            String menu = scanner.next().trim().toLowerCase();
-
-            if (menu.isEmpty()) {
-                System.out.println("메뉴를 입력해주세요.");
-                return;
-            }
-
-            char command = menu.charAt(0);
-
-            switch (command) {
-                case 'q' -> {
-                    System.out.println("프로그램을 종료합니다.");
-                    System.exit(0);
-                }
-
-                case 'i' -> handleInsert();
-                case 's' -> handleSearch();
-                case 'u' -> handleUpdate();
-                case 'd' -> handleDelete();
-
-                default -> System.out.println("잘못된 메뉴입니다. (i/s/u/d/q 만 가능)");
-            }
-
-        } catch (Exception e) {
-            System.out.println("에러 발생: " + e.getMessage());
-        }
-    }
-
-    private static void handleInsert() {
-        UserVO user = UserVO.builder()
-                .userId("user202602")
-                .userName("user202602")
-                .userPw("password")
-                .userEmail("user202602@test22.com")
-                .build();
-
-        int result = repository.UserAdd(user);
-
-        System.out.println(result > 0 ? "추가 성공" : "추가 실패");
-    }
-
-    private static void handleSearch() {
-        String email = "user202602@test22.com";
-        var list = repository.UserSearch(email);
-
-        if (list == null || list.isEmpty()) {
-            System.out.println("조회 결과 없음");
-            return;
+        // 추가 테스트
+        int testresult = repository.userAdd(
+                UserVO.builder()
+                        .userId("user202602")
+                        .userPw("password")
+                        .userName("testuser")
+                        .userEmail("user202602@test.com")
+                        .age((byte) 32)
+                        .phone1("02")
+                        .phone2("888-8888")
+                        .address1("testuser의 주소1")
+                        .address2("testuser의 주소2")
+                        .build());
+        if (testresult != 0) {
+            System.out.println("데이터 추가 성공!!!");
+        } else {
+            System.out.println("데이터 추가 실패!!");
         }
 
-        list.stream().forEach(s -> System.out.println(s));
+        // 레코드 불러오는 search 기능 테스트
+        Optional<UserVO> searchResult = repository.userSearch("user202602@test.com");
+        if (searchResult.isPresent())
+            System.out.println("search(email) 결과 성공");
+        else
+            System.out.println("search(email) 결과 성공");
+
+        // 레코드 수정 (userMod)
+        searchResult.get().setAddress2("수정된 주소"); // 내용 수정.
+
+        testresult = repository.userMod(searchResult.get());
+        if (testresult != 0)
+            System.out.println("userMod() - 수정 성공!!!");
+        else
+            System.out.println("userMod() - 수정 실패!!!");
+
+        // 레코드 검색(userId, username)
+        UserVO search2 = repository.userSearch(
+                "user202602",
+                "testuser").get(0);
+
+        if (search2 != null)
+            System.out.println("search(userId, username) 결과 성공");
+        else
+            System.out.println("search(userId, username) 결과 성공");
+
+        // 레코드 삭제
+        testresult = repository.userDel(searchResult.get());
+        if (testresult != 0)
+            System.out.println("userDel() - 삭제 성공!!!");
+        else
+            System.out.println("userDel() - 삭제 실패!!!");
+
+        // 레코드 전체 출력
+        repository.userAll().stream().forEach(System.out::println);
     }
 
-    private static void handleUpdate() {
-        String email = "user202602@test22.com";
-        var list = repository.UserSearch(email);
-
-        if (list == null || list.isEmpty()) {
-            System.out.println("수정할 사용자를 찾을 수 없습니다.");
-            return;
-        }
-
-        UserVO origin = list.get(0);
-        origin.setAddress1("수정된 주소2");
-        UserVO neworigin = list.get(0);
-
-        System.out.println("neworigin.getId() : " + neworigin.getId());
-        // UserVO modified = UserVO.builder()
-        // .userId(origin.getUserId())
-        // .userName(origin.getUserName() + "_updated")
-        // .userPw(origin.getUserPw())
-        // .userEmail(origin.getUserEmail())
-        // .build();
-
-        int result = repository.UserMod(origin, neworigin);
-
-        System.out.println(result > 0 ? "수정 성공" : "수정 실패");
-    }
-
-    private static void handleDelete() {
-        String email = "user202602@test22.com";
-        var list = repository.UserSearch(email);
-
-        if (list == null || list.isEmpty()) {
-            System.out.println("삭제할 사용자를 찾을 수 없습니다.");
-            return;
-        }
-
-        UserVO user = list.get(0);
-        int result = repository.UserDel(user);
-
-        System.out.println(result > 0 ? "삭제 성공" : "삭제 실패");
-    }
 }
-
-/*
- * package dbutil.test;
- * 
- * import java.util.Scanner;
- * import repository.UserVO;
- * import repository.Users;
- * import repository.UsersDAOImpl;
- * 
- * public class RepositoryTest {
- * 
- * private static Users repository = new UsersDAOImpl();
- * 
- * public static void main(String[] args) {
- * // 레코드 추가
- * try {
- * var scanner = new Scanner(System.in, "cp949");
- * var menu = scanner.next();
- * UserVO searchResult = null;
- * int testresult = 0;
- * menu = menu.toLowerCase(); // 영문자... 대문자를 소문자로 변환
- * searchResult = repository.UserSearch("user202602@test22.com").get(0);
- * if (searchResult != null) {
- * switch (menu.charAt(0)) {
- * case 'i':
- * testresult = repository.UserAdd(new UserVO().builder()
- * .userId("user202602")
- * .userName("user202602")
- * .userPw("password")
- * .userEmail("user202602@test22.com")
- * .build());
- * if (testresult > 0) {
- * System.out.println("email 결과 성공");
- * } else {
- * System.out.println("email 결과 실패");
- * }
- * break;
- * case 's':
- * searchResult = repository.UserSearch("user202602@test22.com").get(0);
- * 
- * if (searchResult != null) {
- * System.out.println("email 결과 성공");
- * System.out.println(searchResult.getUserEmail());
- * } else
- * System.out.println("email 결과 실패");
- * break;
- * case 'u':
- * repository.UserMod(searchResult, searchResult);
- * break;
- * case 'd':
- * // 레코드 삭제
- * testresult = repository.UserDel(searchResult);
- * if (testresult > 0) {
- * System.out.println("email 결과 성공");
- * } else {
- * System.out.println("email 결과 실패");
- * }
- * break;
- * case 'q':
- * System.out.println("프로그램을 종료합니다.");
- * scanner.close();
- * // 프로세스(프로그램) 종료
- * System.exit(0);
- * break;
- * default:
- * System.out.println("메뉴를 잘 못 입력했습니다.");
- * break;
- * }
- * } else {
- * System.out.println("searchResult 가 Null입니다.");
- * }
- * } catch (Exception e) {
- * System.out.println(e.getMessage());
- * }
- * 
- * // var list = repository.UserSearch("user202602", "user202602");
- * // list.stream().forEach(s -> System.out.println(s));
- * 
- * // 사용안함
- * // UserVO testData = UserVO.builder()
- * // .userId("test111")
- * // .userName("test111")
- * // .userPw("test11")
- * // .userEmail("test@test22.com")
- * // .build();
- * // UsersDAOImpl dao = new UsersDAOImpl();
- * // if (dao.UserAdd(testData) != 0) {
- * // System.out.println("성공");
- * // } else {
- * // System.out.println("실패");
- * 
- * // var list = dao.UserAll();
- * 
- * // list.stream().forEach(System.out::println);
- * // }
- * }
- * }
- */

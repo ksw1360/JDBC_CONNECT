@@ -1,25 +1,29 @@
 package service.usermanage;
 
 import java.util.List;
+
 import dto.UserDto;
 
 public interface Usermanage {
 
-    // 사용자 등록
-    boolean userRegister(UserDto userDto);
+    // 1. 사용자 등록
+    boolean userRegister(UserDto userDTO);
 
-    // 사용자 정보 수정
-    boolean userModify(UserDto userDto);
+    // 2. 사용자 수정
+    boolean userModify(UserDto userDTO);
 
-    // 사용자 단건 조회 (ID 기준)
-    UserDto searchByUserId(String userId);
+    // 3. 사용자 검색(특정 사용자 검색, 전체 사용자 검색)
+    // 특정 사용자
+    UserDto searchOne(String userEmail);
 
-    // 사용자 단건 조회 (Email 기준)
-    UserDto searchByEmail(String email);
-
-    // 전체 사용자 조회
+    // 전체 사용자
     List<UserDto> searchAll();
 
-    // 사용자 삭제
-    boolean userDelete(UserDto userDto);
+    // 4. 사용자 삭제
+    boolean userDelete(UserDto userDTO);
+
+    // boolean login(UserDto userDto);
+
+    UserDto login(String userId, String userPw);
+
 }

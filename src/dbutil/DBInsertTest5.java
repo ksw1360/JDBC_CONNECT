@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
-import domain.PersonRe;
-import domain.PersonVO;
+import domain.PersonsRe;
+import domain.PersonsVO;
 import repository.UsersDAOImpl;
 
 public class DBInsertTest5 {
@@ -15,12 +15,12 @@ public class DBInsertTest5 {
         String user = "jdbcuser";
         String password = "jdbcuser";
         // Record 객체의 역활은 값을 변경없이 전달, 받는 역활.
-        PersonRe vo1 = new PersonRe(1, "testuser10", "testuserPw", "testuser10", "testuser10@navercom",
+        PersonsRe vo1 = new PersonsRe(1, "testuser10", "testuserPw", "testuser10", "testuser10@navercom",
                 "010", "234-4678", 20,
                 "서울시", "강동구 어딘가", null, null);
 
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            String sql = "insert into Persons(userId, userPw, userName,  userEmail, phone1, phone2, age, address1, address2)"
+            String sql = "insert into Personss(userId, userPw, userName,  userEmail, phone1, phone2, age, address1, address2)"
                     + "values(?,?,?,?,?,?,?,?,?)";
             // 3. PreparedStatement 객체 생성
             // 변경불가

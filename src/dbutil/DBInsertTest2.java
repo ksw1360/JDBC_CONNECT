@@ -3,7 +3,7 @@ package dbutil;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import domain.PersonVO;
+import domain.PersonsVO;
 
 public class DBInsertTest2 {
     public static void main(String[] args) {
@@ -15,10 +15,10 @@ public class DBInsertTest2 {
         String url = "jdbc:mysql://localhost:3306/jdbc";
         String user = "jdbcuser";
         String password = "jdbcuser";
-        PersonVO vo = new PersonVO(2, "testuser2", "testuser2pw", "testuser2", "testuser2@test.com", "02", "444-4444",
+        PersonsVO vo = new PersonsVO(2, "testuser2", "testuser2pw", "testuser2", "testuser2@test.com", "02", "444-4444",
                 24, "서울시 강동구 어딘가", null, null);
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            String sql = "INSERT INTO Persons (userId, userPw, userName, userEmail, phone1, phone2, age, address1) " +
+            String sql = "INSERT INTO Personss (userId, userPw, userName, userEmail, phone1, phone2, age, address1) " +
                     "values ('" + vo.getUserId()
                     + "','" + vo.getUserName()
                     + "','" + vo.getUserPw()

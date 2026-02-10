@@ -14,7 +14,7 @@ public class DBInsertTest {
         String user = "jdbcuser";
         String password = "jdbcuser";
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            String sql = "INSERT INTO Persons (userId, userPw, userName, userEmail) " +
+            String sql = "INSERT INTO Personss (userId, userPw, userName, userEmail) " +
                     "values ('testuser1','testuser1','testuser1','testuser1@test.com')";
             // Statement() 객체 생성
             var stmt = conn.prepareStatement(sql);

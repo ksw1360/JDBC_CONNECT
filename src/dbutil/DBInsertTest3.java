@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
-import domain.PersonVO;
+import domain.PersonsVO;
 
 public class DBInsertTest3 {
     public static void main(String[] args) {
         // DB 연결을 위한 값을 생성
-        PersonVO vo = new PersonVO(
+        PersonsVO vo = new PersonsVO(
                 5, "user3", "user3", "user3", "user3@naver.com", "02", "123-4567", 30, "서울 강동구 둔촌동", "양재대로 1300");
 
         String url = "jdbc:mysql://localhost:3306/jdbc";
@@ -20,7 +20,7 @@ public class DBInsertTest3 {
         // 2. sql 작성 (PreparedStatement 사용할)
         // 0에 sql구문이 있다고 생각하면 됨
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            String sql = "insert into Persons(userId, userPw, userName,  userEmail, phone1, phone2, age, address1, address2)"
+            String sql = "insert into Personss(userId, userPw, userName,  userEmail, phone1, phone2, age, address1, address2)"
                     + "values(?,?,?,?,?,?,?,?,?)";
             // 3. PreparedStatement 객체 생성
             PreparedStatement pstmt = conn.prepareStatement(sql);

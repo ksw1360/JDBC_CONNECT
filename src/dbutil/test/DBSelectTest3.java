@@ -1,4 +1,4 @@
-package dbutil;
+package dbutil.test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,21 +7,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import dbutils.ConnectInfo;
 import domain.PersonsVO;
-import domain.PersonsVO2;
 
-public class DBSelectTest4 {
+public class DBSelectTest3 {
     public static void main(String[] args) {
         // 연결을 위한 정보 생성
         String url = "jdbc:mysql://localhost:3306/jdbc";
         String user = "jdbcuser";
         String password = "jdbcuser";
-        List<PersonsVO2> list = new ArrayList<>();
+
+        List<PersonsVO> list = new ArrayList<>();
 
         // DB 작업
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            String sql = "select * from Personss where id >= ?";
+            String sql = "select * from Persons where id >= ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, 0);
 
@@ -29,20 +28,21 @@ public class DBSelectTest4 {
             ResultSet rs = pstmt.executeQuery();
             // 결과 처리(ResultSet에 들어간 쿼리를 처리)
             while (rs.next()) { // rs.next() 반환값은 boolean
-                list.add(0, new PersonsVO2().builder()
-                        .id(rs.getLong("id"))
-                        .userId(rs.getString("userId"))
-                        .userPw(rs.getString("userPw"))
-                        .userName(rs.getString("userName"))
-                        .userEmail(rs.getString("userEmail"))
-                        .phone1(rs.getString("phone1"))
-                        .phone2(rs.getString("phone2"))
-                        .age(rs.getByte("age"))
-                        .address1(rs.getString("address1"))
-                        .address2(rs.getString("address2"))
-                        .regDate(rs.getTimestamp("regDate"))
-                        .modifyDate(rs.getTimestamp("modifyDate"))
-                        .build());
+                PersonsVO vo = new PersonsVO(
+                        rs.getString("userId"),
+                        rs.getString("userPw"),
+                        rs.getString("userName"),
+                        rs.getString("userEmail"),
+                        rs.getString("phone1"),
+                        rs.getString("phone2"),
+                        rs.getByte("age"),
+                        rs.getString("address1"),
+                        rs.getString("address2"));
+                vo.setId(rs.getLong("id"));
+                vo.setRegDate(rs.getTimestamp("regDate"));
+                vo.setModifyDate(rs.getTimestamp("modifyDate"));
+                list.add(vo);
+
             }
             list.stream().forEach(System.out::println);
 

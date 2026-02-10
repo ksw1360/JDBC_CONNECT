@@ -2,9 +2,7 @@ package domain;
 
 import java.sql.Timestamp;
 
-import repository.UserVO;
-
-public class PersonVO2 {
+public class PersonsVO2 {
 
     // 멤버 변수 선언
     private long id;
@@ -22,12 +20,12 @@ public class PersonVO2 {
 
     // 생성자
     // 기본 생성자
-    public PersonVO2() {
+    public PersonsVO2() {
     }
 
     // (추가한 내용)
     // Builder를 사용하는 생성자 구성.
-    public PersonVO2(Builder builder) {
+    public PersonsVO2(Builder builder) {
         this.id = builder.id;
         this.userId = builder.userId;
         this.userPw = builder.userPw;
@@ -43,7 +41,7 @@ public class PersonVO2 {
     }
 
     // 필드 생성자(id, regDate, modifyDate - DB가 생성)
-    public PersonVO2(String userId, String userPw, String userName, String userEmail, String phone1, String phone2,
+    public PersonsVO2(String userId, String userPw, String userName, String userEmail, String phone1, String phone2,
             byte age, String address1, String address2) {
         this.userId = userId;
         this.userPw = userPw;
@@ -58,7 +56,7 @@ public class PersonVO2 {
 
     // (추가한 내용)
     // Builder는 static 내부 클래스
-    // 빌더의 역할을 값을 받아서 PersonVO2객체 반환 작업을 객체로 사용.
+    // 빌더의 역할을 값을 받아서 PersonsVO2객체 반환 작업을 객체로 사용.
     public static class Builder {
         private long id;
         private String userId;
@@ -138,15 +136,15 @@ public class PersonVO2 {
         }
 
         // 메서드 : build()
-        public PersonVO2 build() {
-            return new PersonVO2(this); // Builder 내부클래스를 받아서 처리하는 생성자
+        public PersonsVO2 build() {
+            return new PersonsVO2(this); // Builder 내부클래스를 받아서 처리하는 생성자
         }
 
     }
 
     // (추가한 내용)
     // builder() - 반환 타입 Builder
-    public static Builder builder() {
+    public Builder builder() {
         return new Builder();
     }
 
@@ -249,7 +247,7 @@ public class PersonVO2 {
 
     @Override
     public String toString() {
-        return "PersonVO [id=" + id + ", userId=" + userId + ", userName=" + userName + ", userEmail=" + userEmail
+        return "PersonsVO [id=" + id + ", userId=" + userId + ", userName=" + userName + ", userEmail=" + userEmail
                 + ", phone1=" + phone1 + ", phone2=" + phone2 + ", age=" + age + ", address1=" + address1
                 + ", address2=" + address2 + ", regDate=" + regDate + ", modifyDate=" + modifyDate + "]";
     }

@@ -2,26 +2,32 @@ package service.ordermanage;
 
 import java.util.List;
 
-import dto.OrderDto;
+import dto.OrderDTO;
 import dto.UserDto;
 
 public interface Ordermanage {
+
     // 1. 회원 주문 처리
-    boolean createOrder(OrderDto order, UserDto userDto);
+    // --1) 주문 생성
+    boolean createOrder(OrderDTO order, UserDto dto);
 
-    boolean modifyOrder(OrderDto order);
+    // --2) 주문 수정
+    boolean modifyOrder(OrderDTO order, UserDto dto);
 
-    boolean deleteOrder(OrderDto order, UserDto userDto);
+    // --3) 주문 삭제
+    boolean deleteOrder(OrderDTO order, UserDto dto);
 
-    List<OrderDto> findAll();
-
-    List<OrderDto> findid(UserDto dto);
-
-    // 2. 주문 생성
-    // 3. 주문 삭제
-    // 4. 주문 정보 확인
-    List<OrderDto> findList(UserDto dto);
+    // --4) 주문 정보 확인
     // 회원 주문 정보 확인(자신의 userId를 활용해서 주문 확인)
-    // 관리 주문 정보 확인
+    List<OrderDTO> findList(UserDto dto);
+
+    // 관리자 주문 정보 확인(모든 주문 목록을 확인, 특정 userId, 날짜...)
+    List<OrderDTO> findAll();
+
+    List<OrderDTO> findUserId(String userId);
+
+    List<OrderDTO> findDate(String dateString);
+
+    // 2. 비회원 주문 처리 (나중에 여러분이 생각해보세용. )
 
 }

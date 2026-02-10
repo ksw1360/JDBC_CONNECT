@@ -2,7 +2,7 @@ package dbutils;
 
 import java.util.ArrayList;
 import java.util.List;
-import domain.PersonVO2;
+import domain.PersonsVO2;
 
 public class ConnectInfo {
     // 연결을 위한 정보 생성
@@ -10,7 +10,7 @@ public class ConnectInfo {
         public static String url = "jdbc:mysql://localhost:3306/jdbc";
         public static String user = "jdbcuser";
         public static String password = "jdbcuser";
-        public static List<PersonVO2> list = new ArrayList<>();
+        public static List<PersonsVO2> list = new ArrayList<>();
     }
 
 }

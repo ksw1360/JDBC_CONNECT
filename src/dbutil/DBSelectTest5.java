@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import domain.PersonRe;
-import domain.PersonVO2;
+import domain.PersonsRe;
+import domain.PersonsVO2;
 
 public class DBSelectTest5 {
     public static void main(String[] args) {
@@ -16,11 +16,11 @@ public class DBSelectTest5 {
         String url = "jdbc:mysql://localhost:3306/jdbc";
         String user = "jdbcuser";
         String password = "jdbcuser";
-        List<PersonVO2> list = new ArrayList<>();
+        List<PersonsVO2> list = new ArrayList<>();
 
         // DB 작업
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            String sql = "select * from Persons where id <= ?";
+            String sql = "select * from Personss where id <= ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, 10);
 
@@ -28,14 +28,14 @@ public class DBSelectTest5 {
             ResultSet rs = pstmt.executeQuery();
             // 결과 처리(ResultSet에 들어간 쿼리를 처리)
             while (rs.next()) { // rs.next() 반환값은 boolean
-                PersonRe vo = new PersonRe(rs.getInt("id"), rs.getString("userId"), rs.getString("userPw"),
+                PersonsRe vo = new PersonsRe(rs.getInt("id"), rs.getString("userId"), rs.getString("userPw"),
                         rs.getString("userName"), rs.getString("userEmail"), rs.getString("phone1"),
                         rs.getString("phone2"), rs.getByte("age"), rs.getString("address1"), rs.getString("address2"),
                         rs.getTimestamp("regDate"), rs.getTimestamp("modifyDate"));
 
                 // System.out.println("Record 객체 " + vo);
 
-                list.add(0, new PersonVO2().builder()
+                list.add(0, new PersonsVO2().builder()
                         .id(vo.id())
                         .userId(vo.userId())
                         .userPw(vo.userPw())

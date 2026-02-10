@@ -13,14 +13,14 @@ public class DBSelectTest {
         String user = "jdbcuser";
         String password = "jdbcuser";
 
-        String sql = "SELECT * FROM Persons"; // 표준 대문자
+        String sql = "SELECT * FROM Personss"; // 표준 대문자
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) { // 중첩 try-with-resources로 자동 close
 
             // 헤더 출력 (선택사항)
-            System.out.println("=== Persons 테이블 데이터 ===");
+            System.out.println("=== Personss 테이블 데이터 ===");
 
             while (rs.next()) { // 모든 행 반복!
                 // 행 번호 (1부터 시작하게)

@@ -2,31 +2,30 @@ package domain;
 
 import java.sql.Timestamp;
 
-public class PersonVO {
+public class PersonsVO {
 
-    private int id;
+    // 멤버 변수 선언
+    private long id;
     private String userId;
     private String userPw;
     private String userName;
     private String userEmail;
     private String phone1;
     private String phone2;
-    private int age;
+    private byte age;
     private String address1;
     private String address2;
-    // private Timestamp regDate;
-    // private Timestamp modifydate;
+    private Timestamp regDate;
+    private Timestamp modifyDate;
 
+    // 생성자
     // 기본 생성자
-    public PersonVO() {
+    public PersonsVO() {
     }
 
-    // 전체 필드 생성자
-    // 빌드 생성자(id, regdate, modifydate)
-    public PersonVO(int id, String userId, String userPw, String userName, String userEmail,
-            String phone1, String phone2, int age, String address1,
-            String address2) {
-        this.id = id;
+    // 빌드 생성자(id, regDate, modifyDate - DB가 생성)
+    public PersonsVO(String userId, String userPw, String userName, String userEmail, String phone1, String phone2,
+            byte age, String address1, String address2) {
         this.userId = userId;
         this.userPw = userPw;
         this.userName = userName;
@@ -36,16 +35,14 @@ public class PersonVO {
         this.age = age;
         this.address1 = address1;
         this.address2 = address2;
-        // this.regDate = regDate;
-        // this.modifydate = modifydate;
     }
 
-    // getter/setter (필수!)
-    public int getId() {
+    // 메서드(Getter, Setter)
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -97,11 +94,11 @@ public class PersonVO {
         this.phone2 = phone2;
     }
 
-    public int getAge() {
+    public byte getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(byte age) {
         this.age = age;
     }
 
@@ -113,27 +110,6 @@ public class PersonVO {
         this.address1 = address1;
     }
 
-    // public Timestamp getRegDate() {
-    // return regDate;
-    // }
-
-    // public void setRegDate(Timestamp regDate) {
-    // this.regDate = regDate;
-    // }
-
-    // public Timestamp getModifydate() {
-    // return modifydate;
-    // }
-
-    // public void setModifydate(Timestamp modifydate) {
-    // this.modifydate = modifydate;
-    // }
-
-    // phone 전체 보기 편하게
-    public String getPhone() {
-        return phone1 + "-" + phone2;
-    }
-
     public String getAddress2() {
         return address2;
     }
@@ -142,11 +118,27 @@ public class PersonVO {
         this.address2 = address2;
     }
 
+    public Timestamp getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(Timestamp regDate) {
+        this.regDate = regDate;
+    }
+
+    public Timestamp getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Timestamp modifyDate) {
+        this.modifyDate = modifyDate;
+    }
+
     @Override
     public String toString() {
-        return "PersonVO [id=" + id + ", userId=" + userId + ", userPw=" + userPw + ", userName=" + userName
-                + ", userEmail=" + userEmail + ", phone1=" + phone1 + ", phone2=" + phone2 + ", age=" + age
-                + ", address1=" + address1 + ", address2=" + address2 + "]";
+        return "PersonsVO [id=" + id + ", userId=" + userId + ", userName=" + userName + ", userEmail=" + userEmail
+                + ", phone1=" + phone1 + ", phone2=" + phone2 + ", age=" + age + ", address1=" + address1
+                + ", address2=" + address2 + ", regDate=" + regDate + ", modifyDate=" + modifyDate + "]";
     }
 
 }

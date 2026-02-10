@@ -1,4 +1,4 @@
-package dbutil;
+package dbutil.test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import dbutils.ConnectInfo;
 import domain.PersonsVO;
 import domain.PersonsVO2;
 
@@ -17,11 +16,12 @@ public class DBSelectTest4 {
         String url = "jdbc:mysql://localhost:3306/jdbc";
         String user = "jdbcuser";
         String password = "jdbcuser";
+
         List<PersonsVO2> list = new ArrayList<>();
 
         // DB 작업
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            String sql = "select * from Personss where id >= ?";
+            String sql = "select * from Persons where id >= ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, 0);
 
@@ -29,7 +29,7 @@ public class DBSelectTest4 {
             ResultSet rs = pstmt.executeQuery();
             // 결과 처리(ResultSet에 들어간 쿼리를 처리)
             while (rs.next()) { // rs.next() 반환값은 boolean
-                list.add(0, new PersonsVO2().builder()
+                list.add(new PersonsVO2().builder()
                         .id(rs.getLong("id"))
                         .userId(rs.getString("userId"))
                         .userPw(rs.getString("userPw"))

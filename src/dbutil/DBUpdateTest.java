@@ -13,7 +13,7 @@ public class DBUpdateTest {
         Date today = new Date();
         var format0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            String sql = "Update Persons "
+            String sql = "Update Personss "
                     + " Set"
                     + "  phone1 = '02'"
                     + ", phone2 = '588-9991'"

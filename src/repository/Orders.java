@@ -1,27 +1,36 @@
 package repository;
 
 import java.util.List;
+import java.util.Optional;
+
+import domain.orders.OrdersVO;
 
 public interface Orders {
-    List<OrdersVO> orderList(OrdersVO order);
 
-    int OdersAdd(OrdersVO order);
+    // 주문 추가
+    boolean insertOrder(OrdersVO order);
 
-    int OrdersMod(OrdersVO order);
+    // 주문 삭제(취소)
+    boolean deleteOrder(long id);
 
-    int OdersDel(OrdersVO order);
+    // 주문 수정
+    boolean modifyOrder(OrdersVO order);
 
-    List<OrdersVO> OdersAll();
+    // 주문 정보 출력
+    // 1. 전체 주문 출력
+    List<OrdersVO> ordersList();
 
-    List<OrdersVO> OdersSearch(String orderList, int orderNUm);
+    // 2. 부분 주문 출력(사용자Id)
+    List<OrdersVO> ordersSearch(String userId);
 
-    List<OrdersVO> OderSearch(int orderNum);
+    // 3. 날짜를 이용한 방법
+    List<OrdersVO> ordersSearchDate(String date);
 
-    List<OrdersVO> OderSearch(String date);
+    // 4. 주문 번호를 이용하는 방법
+    Optional<OrdersVO> ordersSearch(int orderNum);
 
-    boolean insertOrder(OrdersVO newOrder);
+    int OdersAdd(repository.OrdersVO order);
 
-    void deleteOrder(int id);
+    List<repository.OrdersVO> orderList(repository.OrdersVO order);
 
-    boolean modifyOrder(OrdersVO ordervo);
 }

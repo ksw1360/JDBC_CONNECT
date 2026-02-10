@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import domain.PersonVO;
+import domain.PersonsVO;
 
 public class DBSelectTest2 {
     public static void main(String[] args) {
@@ -17,18 +17,18 @@ public class DBSelectTest2 {
         String user = "jdbcuser";
         String password = "jdbcuser";
 
-        String sql = "SELECT * FROM Persons";
+        String sql = "SELECT * FROM Personss";
 
-        List<PersonVO> list = new ArrayList<>();
+        List<PersonsVO> list = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
 
-            System.out.println("=== Persons 테이블 데이터 ===");
+            System.out.println("=== Personss 테이블 데이터 ===");
 
             while (rs.next()) {
-                PersonVO vo = new PersonVO(
+                PersonsVO vo = new PersonsVO(
                         rs.getInt("id"),
                         rs.getString("userId"),
                         rs.getString("userPw"),

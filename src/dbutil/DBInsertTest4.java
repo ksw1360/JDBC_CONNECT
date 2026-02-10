@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import domain.PersonVO2;
+import domain.PersonsVO2;
 
 public class DBInsertTest4 {
     public static void main(String[] args) {
-        PersonVO2 vo = new PersonVO2().builder()
+        PersonsVO2 vo = new PersonsVO2().builder()
                 .userId("sangwoo")
                 .userPw("sangwoo")
                 .userName("상우")
@@ -23,11 +23,11 @@ public class DBInsertTest4 {
                 .address2("강남역 근처")
                 .build();
         // Stream을 사용하여 10개의 데이터를 추가하는 코드를 작성하라
-        // PersonVO2 객체
-        List<PersonVO2> list = new ArrayList<>();
+        // PersonsVO2 객체
+        List<PersonsVO2> list = new ArrayList<>();
         // list.stream().forEach(s -> insertDB(vo));
         // list.stream().forEach(DBInsertTest4::insertDB);
-        IntStream.range(10, 50).forEach(i -> insertDB(new PersonVO2().builder()
+        IntStream.range(10, 50).forEach(i -> insertDB(new PersonsVO2().builder()
                 .userId("sangwoo" + i) // sangwoo0, sangwoo1, ...
                 .userPw("sangwoo" + i)
                 .userName("상우" + i)
@@ -41,12 +41,12 @@ public class DBInsertTest4 {
     }
 
     // InsertDB() 생성
-    public static void insertDB(PersonVO2 vo) {
+    public static void insertDB(PersonsVO2 vo) {
         try {
             String url = "jdbc:mysql://localhost:3306/jdbc";
             String user = "jdbcuser";
             String password = "jdbcuser";
-            String sql = "insert into Persons(userId, userPw, userName,  userEmail, phone1, phone2, age, address1, address2)"
+            String sql = "insert into Personss(userId, userPw, userName,  userEmail, phone1, phone2, age, address1, address2)"
                     + "values(?,?,?,?,?,?,?,?,?)";
             Connection conn = DriverManager.getConnection(url, user, password);
             PreparedStatement pstmt = conn.prepareStatement(sql);
