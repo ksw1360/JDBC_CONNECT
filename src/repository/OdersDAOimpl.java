@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import dbutil.DBUtil;
 
@@ -216,47 +215,5 @@ public class OdersDAOimpl implements Orders {
         }
 
         return list;
-    }
-
-    @Override
-    public boolean insertOrder(domain.orders.OrdersVO order) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertOrder'");
-    }
-
-    @Override
-    public boolean deleteOrder(long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteOrder'");
-    }
-
-    @Override
-    public boolean modifyOrder(domain.orders.OrdersVO order) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modifyOrder'");
-    }
-
-    @Override
-    public List<domain.orders.OrdersVO> ordersList() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'ordersList'");
-    }
-
-    @Override
-    public List<domain.orders.OrdersVO> ordersSearch(String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'ordersSearch'");
-    }
-
-    @Override
-    public List<domain.orders.OrdersVO> ordersSearchDate(String date) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'ordersSearchDate'");
-    }
-
-    @Override
-    public Optional<domain.orders.OrdersVO> ordersSearch(int orderNum) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'ordersSearch'");
     }
 }
